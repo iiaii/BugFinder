@@ -1,0 +1,33 @@
+{
+  "name": "sonarqube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/cheerio": "^0.22.10",
+    "@types/es6-promise": "^3.3.0",
+    "@types/iconv-lite": "0.0.1",
+    "@types/lodash": "^4.14.121",
+    "@types/puppeteer": "^1.12.1",
+    "@types/request": "^2.48.1",
+    "@types/request-promise": "^4.1.42",
+    "@types/request-promise-native": "^1.0.15",
+    "chai": "^4.2.0",
+    "cheerio": "^1.0.0-rc.2",
+    "iconv-lite": "^0.4.24",
+    "mocha": "^6.0.0",
+    "mocha-typescript": "^1.1.17",
+    "puppeteer": "^1.12.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "request-promise-native": "^1.0.7",
+    "ts-mocha": "^6.0.0",
+    "typescript": "^3.3.3"
+  }
+}
