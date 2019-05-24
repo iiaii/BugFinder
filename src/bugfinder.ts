@@ -1,6 +1,22 @@
-import * as interfaces from './interfaces';
+// 브랜치 테스트
 import puppeteer from 'puppeteer';
-import request = require('request');
+import request = require('request')\;
+
+// 버그정보
+interface bug_data {
+    title: string;
+    link: string;
+}
+
+// 결과
+interface result {
+    // 200: 성공 | 500: 실패
+    status: 200 | 500;
+    // 에러 메세지
+    error_msg? : string;
+    // 사용자 정보
+    bugs : bug_data[];
+}
 
 // 트렐로 정보 
 const trello = {
@@ -39,7 +55,7 @@ const delete_all_cards = () => {
 }
 
 // 카드 추가
-const create_cards = (bug_result:interfaces.bug_data[]) => {
+const create_cards = (bug_result:bug_data[]) => {
     for(let i=0 ; i<bug_result.length ; i++){
         let options = { method: 'POST',
         url: 'https://api.trello.com/1/cards',
@@ -61,7 +77,7 @@ const create_cards = (bug_result:interfaces.bug_data[]) => {
 }
 
 // 버그 가져오기
-const get_bugs = async (page: puppeteer.Page): Promise<interfaces.bug_data[]> => {
+const get_bugs = async (page: puppeteer.Page) => {
     try {
         // 소나큐브 페이지 이동 (5초이상 로딩이면 에러발생)
         await page.goto(urls.sonarqube_page);
@@ -69,12 +85,12 @@ const get_bugs = async (page: puppeteer.Page): Promise<interfaces.bug_data[]> =>
 
         // 버그 정보 추출 후 리턴
         return await page.evaluate((bug_selector) => {
-            let bugs: interfaces.bug_data[] = [];
+            let bugs: bug_data[] = [];
 
             // 버그 타이틀과 링크 추출
             const bug = document.querySelectorAll(bug_selector.bugs);
             for(let i=0 ; i<bug.length ; i++) {
-                const linkData: interfaces.bug_data = {
+                const linkData: bug_data = {
                     title: '',
                     link: ''
                 };
@@ -90,9 +106,9 @@ const get_bugs = async (page: puppeteer.Page): Promise<interfaces.bug_data[]> =>
 };
 
 // 메인
-export default async (): Promise<interfaces.result> => {
+const main = async () => {
 
-    let bug_result:interfaces.bug_data[] = [];
+    let bug_result:bug_data[] = [];
 
     // 브라우저 / 페이지 변수 초기 설정 (퍼펫티어)
     const browser: puppeteer.Browser = await puppeteer.launch();
@@ -108,17 +124,20 @@ export default async (): Promise<interfaces.result> => {
         // 버그 내용으로 카드 추가
         create_cards(bug_result);
         
-        return {
-            status: 200,
-            bugs: bug_result,
-        };
+        // return {
+        //     status: 200,
+        //     bugs: bug_result,
+        // };
     } catch (error) {
-        return {
-            status: 500,
-            error_msg: error,
-            bugs: bug_result
-        };
+        // return {
+        //     status: 500,
+        //     error_msg: error,
+        //     bugs: bug_result
+        // };
     } finally {
         browser.close();
     }
 };
+
+// 10초간 대기 후 메인 실행
+setTimeout(function() { main();}, 10000);
