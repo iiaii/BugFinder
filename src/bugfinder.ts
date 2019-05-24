@@ -1,4 +1,4 @@
-// 브랜치 테스트 + 추가
+// 브랜치 테스트 + test2
 import puppeteer from 'puppeteer';
 import request = require('request')\;
 
