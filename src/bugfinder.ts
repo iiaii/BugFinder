@@ -10,22 +10,26 @@ const trello = {
     token: '0e0f637f865af876a7a2b256840973d5e6413302be0a11a1db5ab2ac730702f0'
 }
 
-// 페이지 정보
+// url 정보
 const urls = {
     sonarqube_page: 'http://13.209.176.175:9000/project/issues?id=CTIP_EX&resolved=false&severities=MAJOR',
+    sonarqube_result: 'http://13.209.176.175:9000/issues?open=',
+    add_cards: 'https://api.trello.com/1/cards',
+    delete_al_cards: 'https://api.trello.com/1/lists/'+trello.idList+'/archiveAllCards'
 }
 
 // 셀렉터 영역
 const selectors = {
     wait_for_bugs: '#issues-page > div.layout-page-main > div.layout-page-main-inner > div > div > div:nth-child(1) > div.issues-workspace-list-component.note > div',
-    bugs: '.issue'
+    bug_title: '.issue-message',
+    bug_id: 'data-issue'
 }
 
 // 리스트의 카드 전부 삭제
 const delete_all_cards = () => {
     const options = {
         method: 'POST',
-        url: 'https://api.trello.com/1/lists/'+trello.idList+'/archiveAllCards',
+        url: urls.delete_al_cards,
         qs: 
         { 
             key: trello.key,
@@ -42,7 +46,7 @@ const delete_all_cards = () => {
 const create_cards = (bug_result: interfaces.bug_data[]) => {
     for(let i=0 ; i<bug_result.length ; i++){
         let options = { method: 'POST',
-        url: 'https://api.trello.com/1/cards',
+        url: urls.add_cards,
         qs: 
         { 
             name: bug_result[i].title,
@@ -78,8 +82,8 @@ const get_bugs = async (page: puppeteer.Page): Promise<interfaces.bug_data[]> =>
                     title: '',
                     link: ''
                 };
-                linkData.title = 'S'+(i+1) +' : '+bug[i].querySelector('.issue-message').textContent;
-                linkData.link = 'http://13.209.176.175:9000/issues?open='+ bug[i].getAttribute('data-issue') +'&resolved=false';
+                linkData.title = 'S' + (i+1) + ' : ' + bug[i].querySelector(selectors.bug_title).textContent;
+                linkData.link = urls.sonarqube_result + bug[i].getAttribute(selectors.bug_id) + '&resolved=false';
                 bugs.push(linkData);
             };
             return bugs;
@@ -90,7 +94,7 @@ const get_bugs = async (page: puppeteer.Page): Promise<interfaces.bug_data[]> =>
 };
 
 // 메인
-const main = async (): Promise<interfaces.result> => {
+export default async (): Promise<interfaces.result> => {
     let bug_result: interfaces.bug_data[] = [];
 
     // 브라우저 / 페이지 변수 초기 설정 (퍼펫티어)
