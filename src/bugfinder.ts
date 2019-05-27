@@ -1,6 +1,6 @@
-import * as interfaces from './interfaces';
 import puppeteer from 'puppeteer';
-import request = require('request');
+import request from 'request';
+import * as interfaces from './interfaces';
 
 // 트렐로 정보 
 const trello = {
@@ -39,7 +39,7 @@ const delete_all_cards = () => {
 }
 
 // 카드 추가
-const create_cards = (bug_result:interfaces.bug_data[]) => {
+const create_cards = (bug_result: interfaces.bug_data[]) => {
     for(let i=0 ; i<bug_result.length ; i++){
         let options = { method: 'POST',
         url: 'https://api.trello.com/1/cards',
@@ -92,7 +92,7 @@ const get_bugs = async (page: puppeteer.Page): Promise<interfaces.bug_data[]> =>
 // 메인
 export default async (): Promise<interfaces.result> => {
 
-    let bug_result:interfaces.bug_data[] = [];
+    let bug_result: interfaces.bug_data[] = [];
 
     // 브라우저 / 페이지 변수 초기 설정 (퍼펫티어)
     const browser: puppeteer.Browser = await puppeteer.launch();
