@@ -23,7 +23,7 @@ const selectors = {
 
 // 리스트의 카드 전부 삭제
 const delete_all_cards = () => {
-    const options = { 
+    const options = {
         method: 'POST',
         url: 'https://api.trello.com/1/lists/'+trello.idList+'/archiveAllCards',
         qs: 
@@ -90,8 +90,7 @@ const get_bugs = async (page: puppeteer.Page): Promise<interfaces.bug_data[]> =>
 };
 
 // 메인
-export default async (): Promise<interfaces.result> => {
-
+const main = async (): Promise<interfaces.result> => {
     let bug_result: interfaces.bug_data[] = [];
 
     // 브라우저 / 페이지 변수 초기 설정 (퍼펫티어)

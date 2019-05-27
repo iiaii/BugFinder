@@ -1,3 +1,4 @@
+// test2 브랜치테스트
 // 버그정보
 export interface bug_data {
     title: string;

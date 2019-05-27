@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "app": "./bin"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pkg ./src/bugfinder.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +27,8 @@
     "iconv-lite": "^0.4.24",
     "mocha": "^6.0.0",
     "mocha-typescript": "^1.1.17",
-    "puppeteer": "^1.12.2",
+    "pkg": "^4.3.8",
+    "puppeteer": "^1.15.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "request-promise-native": "^1.0.7",
